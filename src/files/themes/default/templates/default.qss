@@ -124,6 +124,7 @@ QCheckBox#button_hide,
 QCheckBox#button_power,
 QCheckBox#button_power_small,
 QCheckBox#loop_mode,
+QCheckBox#metronome,
 QCheckBox#solo_checkbox,
 QCheckBox#mute_checkbox,
 QCheckBox#dc_checkbox,
@@ -135,6 +136,7 @@ QRadioButton#rec_arm_radiobutton
 }
 
 QCheckBox#loop_mode::indicator,
+QCheckBox#metronome::indicator,
 QRadioButton#tool_select::indicator,
 QRadioButton#tool_draw::indicator,
 QRadioButton#tool_erase::indicator,
@@ -249,6 +251,16 @@ QCheckBox#loop_mode::indicator::unchecked
 QCheckBox#loop_mode::indicator::checked
 {
     image: url({{ ASSETS_DIR }}/loop-on.svg);
+}
+
+QCheckBox#metronome::indicator::unchecked
+{
+    image: url({{ ASSETS_DIR }}/{{ assets_subdir }}/metronome-off.svg);
+}
+
+QCheckBox#metronome::indicator::checked
+{
+    image: url({{ ASSETS_DIR }}/metronome-on.svg);
 }
 
 /* Track panel radio buttons  */

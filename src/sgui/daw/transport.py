@@ -32,6 +32,13 @@ class TransportWidget(AbstractTransportWidget):
             self.on_loop_mode_changed,
         )
 
+        self.metronome_checkbox = QCheckBox()
+        self.metronome_checkbox.setObjectName("metronome")
+        self.hlayout1.addWidget(self.metronome_checkbox)
+        self.metronome_checkbox.stateChanged.connect(
+            self.on_metronome_changed,
+        )
+
         # Mouse tools
         self.tool_select_rb = QRadioButton()
         self.tool_select_rb.setObjectName("tool_select")
@@ -316,6 +323,15 @@ class TransportWidget(AbstractTransportWidget):
             a_loop_mode = 1
         if not self.suppress_osc:
             constants.DAW_PROJECT.ipc().set_loop_mode(a_loop_mode)
+
+    def on_metronome_changed(self, enabled):
+        # The states we expect are 0 or 2, not 0 or 1
+        if enabled in (0, QtCore.Qt.CheckState.Unchecked):
+            enabled = 0
+        else:
+            enabled = 1
+        if not self.suppress_osc:
+            constants.DAW_PROJECT.ipc().set_metronome(enabled)
 
     def toggle_loop_mode(self):
         self.loop_mode_checkbox.setChecked(

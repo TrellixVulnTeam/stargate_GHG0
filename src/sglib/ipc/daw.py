@@ -77,6 +77,9 @@ class DawIPC(AbstractIPC):
     def set_loop_mode(self, a_mode):
         self.send_configure("loop", str(a_mode))
 
+    def set_metronome(self, enabled):
+        self.send_configure("metronome", str(enabled))
+
     def set_solo(self, a_track_num, a_bool):
         self.send_configure(
             "solo", "|".join(str(x) for x in
