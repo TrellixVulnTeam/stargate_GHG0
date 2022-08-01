@@ -10,7 +10,6 @@
 enum LoopMode {
     DN_LOOP_MODE_OFF = 0,
     DN_LOOP_MODE_SEQUENCE = 1,
-    DAW_MAX_SONG_COUNT = 20,
 };
 
 // Events stored from the user's QWERTY keyboard
@@ -130,6 +129,7 @@ typedef struct {
     t_track* track_pool[DN_TRACK_COUNT];
     t_daw_routing_graph * routing_graph;
 
+    int metronome;  //0 == Off, 1 == On
     int loop_mode;  //0 == Off, 1 == On
     int overdub_mode;  //0 == Off, 1 == On
 

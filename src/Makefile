@@ -51,6 +51,7 @@ install_distro: clean_pyc
 	cp -r files/themes files/presets $(SG_DIR)
 	cp -r files/themes files/plugin_assets files/fonts $(SG_DIR)
 	cp -r files/share $(DESTDIR)/$(PREFIX)
+	cp -r files/metronome $(SG_DIR)
 	install -m 644 meta.json $(SG_DIR)
 	install -m 644 COMMIT $(SG_DIR)
 

@@ -3,5 +3,7 @@
 
 #define DN_MAX_ITEM_COUNT 5000
 #define DN_TRACK_COUNT 32
+#define DAW_MAX_SONG_COUNT 20
+
 
 #endif

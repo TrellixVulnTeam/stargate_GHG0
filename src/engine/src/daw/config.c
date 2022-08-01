@@ -178,16 +178,23 @@ void v_daw_configure(const char* a_key, const char* a_value){
         {
             v_daw_atm_sequence_free(f_old_sequence);
         }
-    }
-    else if(!strcmp(a_key, DN_CONFIGURE_KEY_LOOP)) //Set loop mode
-    {
+    } else if(!strcmp(a_key, DN_CONFIGURE_KEY_LOOP)){
         int f_value = atoi(a_value);
 
         pthread_spin_lock(&STARGATE->main_lock);
         v_daw_set_loop_mode(self, f_value);
         pthread_spin_unlock(&STARGATE->main_lock);
-    }
-    else if(!strcmp(a_key, DN_CONFIGURE_KEY_OS)) //Open Song
+    } else if(!strcmp(a_key, DN_CONFIGURE_KEY_METRONOME)){
+        int f_value = atoi(a_value);
+        sg_assert(
+            f_value >= 0 && f_value <= 1,
+            "metronome value out of range 0-1: %i",
+            f_value
+        );
+        pthread_spin_lock(&STARGATE->main_lock);
+        self->metronome = f_value;
+        pthread_spin_unlock(&STARGATE->main_lock);
+    } else if(!strcmp(a_key, DN_CONFIGURE_KEY_OS)) //Open Song
     {
         t_key_value_pair * f_kvp = g_kvp_get(a_value);
         int f_first_open = atoi(f_kvp->key);

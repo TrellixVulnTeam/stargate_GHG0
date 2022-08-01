@@ -14,7 +14,6 @@ GNU General Public License for more details.
 #ifndef INTERPOLATE_CUBIC_H
 #define INTERPOLATE_CUBIC_H
 
-#include "lmalloc.h"
 #include "compiler.h"
 
 SGFLT f_cubic_interpolate_ptr_wrap(SGFLT*, int, SGFLT);
@@ -31,6 +30,14 @@ SGFLT f_cubic_interpolate_ptr(SGFLT*, SGFLT);
  */
 SGFLT f_cubic_interpolate_ptr_ifh(
     SGFLT * a_table,
+    int a_whole_number,
+    SGFLT a_frac
+);
+
+// Used for interleaved multi-channel (or mono) audio
+SGFLT cubic_interpolate_interleaved(
+    SGFLT * a_table,
+    int channels,
     int a_whole_number,
     SGFLT a_frac
 );

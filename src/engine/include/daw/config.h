@@ -11,6 +11,7 @@
 #define DN_CONFIGURE_KEY_SAVE_ATM "sa"
 #define DN_CONFIGURE_KEY_DN_PLAYBACK "enp"
 #define DN_CONFIGURE_KEY_LOOP "loop"
+#define DN_CONFIGURE_KEY_METRONOME "metronome"
 #define DN_CONFIGURE_KEY_SOLO "solo"
 #define DN_CONFIGURE_KEY_MUTE "mute"
 #define DN_CONFIGURE_KEY_SET_OVERDUB_MODE "od"
