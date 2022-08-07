@@ -509,6 +509,8 @@ void v_daw_run_engine(
     t_sg_seq_event_period * f_seq_period;
     int f_period, sample_count;
     struct SamplePair* output;
+    int f_i;
+    long f_next_current_sample;
 
     if(STARGATE->playback_mode != PLAYBACK_MODE_OFF){
         v_sg_seq_event_list_set(
@@ -537,12 +539,7 @@ void v_daw_run_engine(
     }
 
     for(f_period = 0; f_period < self->seq_event_result.count; ++f_period){
-        f_seq_period = &self->seq_event_result.sample_periods[f_period];
-
-        sample_count = f_seq_period->period.sample_count;
-        output = f_seq_period->period.buffers;
         //notify the worker threads to wake up
-        int f_i;
         for(f_i = 1; f_i < STARGATE->worker_thread_count; ++f_i){
             pthread_spin_lock(&STARGATE->thread_locks[f_i]);
             pthread_mutex_lock(&STARGATE->track_block_mutexes[f_i]);
@@ -550,8 +547,11 @@ void v_daw_run_engine(
             pthread_mutex_unlock(&STARGATE->track_block_mutexes[f_i]);
         }
 
-        long f_next_current_sample =
-            DAW->ts[0].current_sample + sample_count;
+        f_seq_period = &self->seq_event_result.sample_periods[f_period];
+        sample_count = f_seq_period->period.sample_count;
+        output = f_seq_period->period.buffers;
+
+        f_next_current_sample = DAW->ts[0].current_sample + sample_count;
 
         STARGATE->sample_count = sample_count;
         self->ts[0].f_next_current_sample = f_next_current_sample;
