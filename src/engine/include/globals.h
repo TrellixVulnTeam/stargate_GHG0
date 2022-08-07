@@ -10,5 +10,6 @@ extern volatile int READY;
 extern int SINGLE_THREAD;
 extern int UI_SEND_USLEEP;
 extern pthread_mutex_t CONFIG_LOCK;
+extern char* INSTALL_PREFIX;
 
 #endif
