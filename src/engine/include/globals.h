@@ -11,5 +11,6 @@ extern int SINGLE_THREAD;
 extern int UI_SEND_USLEEP;
 extern pthread_mutex_t CONFIG_LOCK;
 extern char* INSTALL_PREFIX;
+extern char* SAMPLES_FOLDER;
 
 #endif

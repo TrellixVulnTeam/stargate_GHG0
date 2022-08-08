@@ -120,33 +120,30 @@ t_dir_list* g_get_dir_list(char * a_dir){
     );
     //if (dir != NULL)
     //{
-      while ((ent = readdir (dir)) != NULL)
-      {
-          if((!strcmp(ent->d_name, ".")) || (!strcmp(ent->d_name, "..")))
-          {
+      while ((ent = readdir (dir)) != NULL){
+          if((!strcmp(ent->d_name, ".")) || (!strcmp(ent->d_name, ".."))){
               continue;
           }
 
-          f_result->dir_list[(f_result->dir_count)] =
-                  (char*)malloc(sizeof(char) * TINY_STRING);
+          f_result->dir_list[(f_result->dir_count)] = (char*)malloc(
+              sizeof(char) * TINY_STRING
+          );
 
-            strcpy(f_result->dir_list[(f_result->dir_count)], ent->d_name);
+          strcpy(f_result->dir_list[(f_result->dir_count)], ent->d_name);
 
           ++f_result->dir_count;
 
-          if((f_result->dir_count) >= f_current_max)
-          {
+          if((f_result->dir_count) >= f_current_max){
               f_current_max += f_resize_factor;
-              f_result->dir_list =
-                  (char**)realloc(f_result->dir_list,
-                      sizeof(char*) * f_current_max);
+              f_result->dir_list = (char**)realloc(
+                  f_result->dir_list,
+                  sizeof(char*) * f_current_max
+              );
           }
       }
       closedir (dir);
     /*
-    }
-    else
-    {
+    } else {
       return 0;
     }
     */
@@ -190,4 +187,58 @@ void delete_file(char* path){
             retcode
         );
     }
+}
+
+void dir_iter_init(struct DirIter* self, char* path){
+    self->dir = opendir(path);
+    sg_assert_ptr(
+        self->dir,
+        "g_get_dir_list: opendir(%s) returned NULL",
+        path
+    );
+    sg_snprintf(self->path, 1023, "%s", path);
+}
+
+void dir_iter_close(struct DirIter* self){
+    closedir(self->dir);
+}
+
+char* _dir_iter(struct DirIter* self, unsigned char file_type){
+    struct dirent* ent;
+    while((ent = readdir(self->dir)) != NULL){
+        if(
+            ent->d_type != file_type
+            ||
+            !strcmp(ent->d_name, ".")
+            ||
+            !strcmp(ent->d_name, "..")
+        ){
+            continue;
+        }
+        sg_snprintf(self->tmp, 1023, "%s/%s", self->path, ent->d_name);
+        return self->tmp;
+    }
+    return NULL;
+}
+
+char* dir_iter_dirs(struct DirIter* self){
+    return _dir_iter(self, DT_DIR);
+}
+
+char* dir_iter_files(struct DirIter* self){
+    return _dir_iter(self, DT_REG);
+}
+
+int is_dir(char* path){
+    struct stat statbuf;
+    if (stat(path, &statbuf) != 0)
+        return 0;
+    return S_ISDIR(statbuf.st_mode);
+}
+
+int is_file(char* path){
+    struct stat statbuf;
+    if (stat(path, &statbuf) != 0)
+        return 0;
+    return S_ISREG(statbuf.st_mode);
 }

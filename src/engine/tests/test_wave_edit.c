@@ -5,8 +5,9 @@
 
 void TestWaveEditConfigE2E(){
     int buffer_size = 128;
-    struct SamplePair* buffer =
-        malloc(sizeof(struct SamplePair) * buffer_size);
+    struct SamplePair* buffer = (struct SamplePair*)malloc(
+        sizeof(struct SamplePair) * buffer_size
+    );
     v_activate(
         1,
         "./test_fixtures/projects/wave_edit_e2e",

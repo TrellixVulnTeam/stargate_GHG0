@@ -1,4 +1,5 @@
 #include <assert.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -29,7 +30,25 @@ static void TestListDir(){
     g_get_dir_list("./tmp");
 }
 
+static void TestDirIter(){
+    struct DirIter dir_iter;
+    char* path = NULL;
+
+    dir_iter_init(&dir_iter, ".");
+    while((path = dir_iter_dirs(&dir_iter)) != NULL){
+        printf("dir: %s", path);
+    }
+    dir_iter_close(&dir_iter);
+
+    dir_iter_init(&dir_iter, ".");
+    while((path = dir_iter_files(&dir_iter)) != NULL){
+        printf("dir: %s", path);
+    }
+    dir_iter_close(&dir_iter);
+}
+
 void TestFilesAll(){
     TestWriteChownReadDelete();
     TestListDir();
+    TestDirIter();
 }

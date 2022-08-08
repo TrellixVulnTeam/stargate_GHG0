@@ -3,6 +3,7 @@
 #include "audiodsp/lib/amp.h"
 #include "audiodsp/lib/lmalloc.h"
 #include "audiodsp/modules/multifx/multifx3knob.h"
+#include "globals.h"
 #include "plugin.h"
 #include "audio/item.h"
 #include "audio/audio_pool.h"
@@ -48,14 +49,28 @@ int i_audio_pool_item_load(
     size_t samples = 0;
     SGFLT *tmpFrames, *tmpSamples[2];
     int f_i = 0;
+    char* path = a_audio_pool_item->path;
+    char tmp_str[1024];
 
     info.format = 0;
 
-    sg_assert(
-        i_file_exists(a_audio_pool_item->path),
-        "Audio file does not exist: '%s'",
-        a_audio_pool_item->path
-    );
+    if(!i_file_exists(path)){
+        path = tmp_str;
+        sg_snprintf(
+            path,
+            1023,
+            "%s%s%s",
+            SAMPLES_FOLDER,
+            PATH_SEP,
+            a_audio_pool_item->path
+        );
+        if(!i_file_exists(path)){
+            sg_abort(
+                "Audio file does not exist: '%s'",
+                a_audio_pool_item->path
+            );
+        }
+    }
 
     file = sf_open(
         a_audio_pool_item->path,

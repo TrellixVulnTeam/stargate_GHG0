@@ -303,6 +303,7 @@ void g_stargate_get(
     STARGATE->audio_folder = (char*)malloc(sizeof(char) * 1024);
     STARGATE->audio_tmp_folder = (char*)malloc(sizeof(char) * 1024);
     STARGATE->samples_folder = (char*)malloc(sizeof(char) * 1024);
+    SAMPLES_FOLDER = STARGATE->samples_folder;
     STARGATE->samplegraph_folder = (char*)malloc(sizeof(char) * 1024);
     STARGATE->audio_pool_file = (char*)malloc(sizeof(char) * 1024);
     STARGATE->plugins_folder = (char*)malloc(sizeof(char) * 1024);

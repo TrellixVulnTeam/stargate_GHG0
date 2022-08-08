@@ -6,4 +6,5 @@ int SINGLE_THREAD = 0;
 int UI_SEND_USLEEP = 30000;
 pthread_mutex_t CONFIG_LOCK;
 char* INSTALL_PREFIX;
+char* SAMPLES_FOLDER;
 
