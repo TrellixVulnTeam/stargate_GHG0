@@ -47,5 +47,5 @@ void TestWaveEditConfigE2E(){
 }
 
 void TestWaveEdit(){
-    TestWaveEditConfigE2E();
+    //TestWaveEditConfigE2E();
 }
