@@ -52,7 +52,7 @@ void vpath_join(
     for(i = 0; i < count; ++i){
         str = va_arg(args, char*);
 		sg_assert(
-			str != NULL && str[0] == '\0',
+			str != NULL && str[0] != '\0',
 			"vpath_join: '%s' has empty section at %i",
 			result,
 			i
