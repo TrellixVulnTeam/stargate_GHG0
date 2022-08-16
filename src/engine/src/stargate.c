@@ -299,14 +299,7 @@ void g_stargate_get(
     STARGATE->midi_learn = 0;
     STARGATE->is_offline_rendering = 0;
     pthread_spin_init(&STARGATE->main_lock, 0);
-    STARGATE->project_folder = (char*)malloc(sizeof(char) * 1024);
-    STARGATE->audio_folder = (char*)malloc(sizeof(char) * 1024);
-    STARGATE->audio_tmp_folder = (char*)malloc(sizeof(char) * 1024);
-    STARGATE->samples_folder = (char*)malloc(sizeof(char) * 1024);
     SAMPLES_FOLDER = STARGATE->samples_folder;
-    STARGATE->samplegraph_folder = (char*)malloc(sizeof(char) * 1024);
-    STARGATE->audio_pool_file = (char*)malloc(sizeof(char) * 1024);
-    STARGATE->plugins_folder = (char*)malloc(sizeof(char) * 1024);
 
     STARGATE->preview_wav_item = 0;
     STARGATE->preview_audio_item = g_audio_item_get(a_sr);
@@ -342,14 +335,40 @@ void g_stargate_get(
         ts->current_host = SG_HOST_DAW;
     }
 
-    /* Create OSC thread */
+    // Create OSC thread
 
     pthread_spin_init(&STARGATE->ui_spinlock, 0);
     STARGATE->osc_queue_index = 0;
-    STARGATE->osc_cursor_message = (char*)malloc(sizeof(char) * 1024);
 
     for(f_i = 0; f_i < MAX_PLUGIN_POOL_COUNT; ++f_i){
         STARGATE->plugin_pool[f_i].active = 0;
+    }
+
+    //
+
+    if(INSTALL_PREFIX){  // Install prefix is not set for the test suite
+        sg_snprintf(
+            STARGATE->metronome_folder,
+            1024,
+            "%s%smetronome",
+            INSTALL_PREFIX,
+            PATH_SEP
+        );
+        if(!is_dir(STARGATE->metronome_folder)){
+            sg_snprintf(
+                STARGATE->metronome_folder,
+                1024,
+                "%s%sfiles%smetronome",
+                INSTALL_PREFIX,
+                PATH_SEP,
+                PATH_SEP
+            );
+        }
+        sg_assert(
+            is_dir(STARGATE->metronome_folder),
+            "%s does not exist",
+            STARGATE->metronome_folder
+        );
     }
 }
 
@@ -1539,7 +1558,7 @@ void plugin_init(
         log_info("Finished initializing plugin");
 
         char f_file_name[1024];
-        snprintf(
+        sg_snprintf(
             f_file_name,
             1024,
             "%s%i",

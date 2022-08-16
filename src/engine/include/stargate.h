@@ -267,7 +267,7 @@ typedef struct {
     pthread_t audio_recording_thread;
     int audio_recording_quit_notifier;
     enum PlaybackMode playback_mode;
-    char * osc_cursor_message;
+    char osc_cursor_message[1024];
     int osc_queue_index;
     char osc_queue_keys[OSC_SEND_QUEUE_SIZE][12];
     char osc_queue_vals[OSC_SEND_QUEUE_SIZE][OSC_MAX_MESSAGE_SIZE];
@@ -277,13 +277,14 @@ typedef struct {
     t_midi_device_list * midi_devices;
     int midi_learn;
     t_plugin plugin_pool[MAX_PLUGIN_POOL_COUNT];
-    char* project_folder;
-    char* audio_folder;
-    char* audio_tmp_folder;
-    char* samples_folder;
-    char* samplegraph_folder;
-    char* audio_pool_file;
-    char* plugins_folder;
+    char project_folder[1024];
+    char audio_folder[1024];
+    char audio_tmp_folder[1024];
+    char samples_folder[1024];
+    char samplegraph_folder[1024];
+    char audio_pool_file[1024];
+    char plugins_folder[1024];
+    char metronome_folder[1024];
     pthread_mutex_t exit_mutex;
 } t_stargate;
 
